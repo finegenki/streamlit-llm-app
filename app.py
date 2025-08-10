@@ -2,6 +2,7 @@
 import os
 #from dotenv import load_dotenv
 import streamlit as st
+from langchain_openai import ChatOpenAI
 
 # ---- 環境変数（APIキー）読み込み ----
 #load_dotenv()  # .env から OPENAI_API_KEY を読み込み
