@@ -64,3 +64,10 @@ typing_extensions==4.14.1
 tzdata==2025.2
 urllib3==2.5.0
 zstandard==0.23.0
+langchain==0.3.0
+langchain-community==0.3.0
+langchain-openai==0.2.0
+openai>=1.43.0
+streamlit>=1.33
+pydantic>=2.5
+tiktoken>=0.7.0
