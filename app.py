@@ -1,18 +1,23 @@
 # app.py
 import os
+#from dotenv import load_dotenv
 import streamlit as st
-
-# Secrets > OPENAI_API_KEY があれば優先。無ければ環境変数から。
-OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
-
-if not OPENAI_API_KEY:
-    st.error("APIキーが見つかりません。Advanced settings の Secrets か Environment variables に OPENAI_API_KEY を設定してください。")
-else:
-    # OpenAI/LangChain が環境変数を見るようにしておく（任意）
-    os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
 # ---- 環境変数（APIキー）読み込み ----
 #load_dotenv()  # .env から OPENAI_API_KEY を読み込み
+
+# Secrets > OPENAI_API_KEY があれば優先。無ければ環境変数から。
+try:
+    OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
+except:
+    # Secretsファイルがない場合は環境変数から読み込み
+    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+if not OPENAI_API_KEY:
+    st.error("APIキーが見つかりません。.env ファイルに OPENAI_API_KEY を設定してください。")
+else:
+    # OpenAI/LangChain が環境変数を見るようにしておく（任意）
+    os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
 import streamlit as st
 from langchain_openai import ChatOpenAI
@@ -89,8 +94,8 @@ submit = st.button("送信", type="primary", use_container_width=True)
 
 # 応答表示
 if submit:
-    if not os.getenv("OPENAI_API_KEY"):
-        st.error("OPENAI_API_KEY が設定されていません。.env を確認してください。")
+    if not OPENAI_API_KEY:
+        st.error("OPENAI_API_KEY が設定されていません。.env ファイルを確認してください。")
     elif not user_input.strip():
         st.warning("入力テキストを入力してください。")
     else:
